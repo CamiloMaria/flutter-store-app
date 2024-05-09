@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:project/shared/widget/custom_form_fuild.dart';
-import 'package:project/views/auth/register.dart';
+import 'package:project/buyers/views/auth/register.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
