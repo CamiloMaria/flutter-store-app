@@ -17,6 +17,7 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
       keyboardType: obscureText ? TextInputType.text : TextInputType.emailAddress,
       obscureText: obscureText,
       decoration: InputDecoration(

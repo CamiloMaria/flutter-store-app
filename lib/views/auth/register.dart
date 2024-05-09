@@ -12,45 +12,67 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  final String userName = '';
+  final String email = '';
+  final String password = '';
+
+  void registerUser() {
+    if (formKey.currentState!.validate()) {
+      // do something
+    } else {
+      // do something
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 40),
-              Text(
-                'Bienvenido\nPor favor, registra tus datos para continuar',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20),
-              Image.asset('assets/images/Illustration.png', height: 180),
-              SizedBox(height: 20),
-              CustomFormField(
-                labelText: "Correo electrónico", 
-                prefixIcon: Icons.email
-              ),
-              SizedBox(height: 16),
-              CustomFormField(
-                labelText: "Repetir correo electrónico", 
-                prefixIcon: Icons.email
-              ),
-              SizedBox(height: 16),
-              CustomFormField(
-                labelText: "Contraseña", 
-                prefixIcon: Icons.lock,
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              _LoginButton(),
-              SizedBox(height: 20),
-              _SignUpText(context),
-            ],
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 40),
+                Text(
+                  'Bienvenido\nPor favor, registra tus datos para continuar',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                CircleAvatar(
+                  radius: 90,
+                  backgroundColor: Colors.grey[300],
+                  backgroundImage: AssetImage('assets/icons/user.png'),
+                ),
+                SizedBox(height: 30),
+                CustomFormField(
+                  labelText: "Nombre", 
+                  prefixIcon: Icons.person
+                ),
+                SizedBox(height: 16),
+                CustomFormField(
+                  labelText: "Correo electrónico", 
+                  prefixIcon: Icons.email
+                ),
+                SizedBox(height: 16),
+                CustomFormField(
+                  labelText: "Contraseña", 
+                  prefixIcon: Icons.lock,
+                  obscureText: true,
+                ),
+                SizedBox(height: 20),
+                _RegisterButton(
+                  onTap: registerUser,
+                ),
+                SizedBox(height: 20),
+                _SignInText(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -58,17 +80,18 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 }
 
-class _LoginButton extends StatelessWidget {
+class _RegisterButton extends StatelessWidget {
+  final Function onTap;
+  const _RegisterButton({required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Acción al presionar
-      },
+      onTap: () => onTap(),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue, Colors.purple],
+            colors: const [Colors.blue, Colors.purple],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -89,9 +112,9 @@ class _LoginButton extends StatelessWidget {
   }
 }
 
-class _SignUpText extends StatelessWidget {
+class _SignInText extends StatelessWidget {
   final BuildContext context;
-  _SignUpText(this.context);
+  const _SignInText(this.context);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +129,7 @@ class _SignUpText extends StatelessWidget {
         child: RichText(
           text: TextSpan(
             style: TextStyle(fontSize: 16, color: Colors.black), 
-            children: <TextSpan>[
+            children: const <TextSpan>[
               TextSpan(text: 'Ya tienes cuenta? '), 
               TextSpan(
                 text: 'Logueate',
