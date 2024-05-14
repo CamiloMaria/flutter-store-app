@@ -16,10 +16,28 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AuthController _authController = AuthController();
 
+  late String email = '';
+  late String password = '';
   bool isLoading = false;
 
   void loginUser() async {
     startLoading();
+
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      final String response = await performLogin();
+
+      if (!mounted) return;
+      if (response == 'success') {
+        showSuccessDialog();
+      } else {
+        showErrorSnackBar(response);
+      }
+    } else {
+      showValidationSnackBar();
+    }
+
+    stopLoading();
   }
 
   void startLoading() {
@@ -35,38 +53,88 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  Future<String> performLogin() async {
+    return await _authController.loginUser(email, password).whenComplete(() {
+      setState(() {
+        formKey.currentState!.reset();
+      });
+    });
+  }
+
+  void showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Inicio de sesión exitoso'),
+          content: Text('¡Bienvenido de nuevo!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
+  void showValidationSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Por favor, rellena todos los campos'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 40),
-              Text(
-                'Bienvenido\nPor favor, inicia sesión para continuar',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20),
-              Image.asset('assets/images/Illustration.png', height: 280),
-              SizedBox(height: 20),
-              CustomFormField(
-                  labelText: "Correo electrónico", prefixIcon: Icons.email),
-              SizedBox(height: 16),
-              CustomFormField(
-                labelText: "Contraseña",
-                prefixIcon: Icons.lock,
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              _LoginButton(),
-              SizedBox(height: 20),
-              _SignUpText(context),
-            ],
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 40),
+                Text(
+                  'Bienvenido\nPor favor, inicia sesión para continuar',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                Image.asset('assets/images/Illustration.png', height: 280),
+                SizedBox(height: 20),
+                CustomFormField(
+                    labelText: "Correo electrónico",
+                    prefixIcon: Icons.email,
+                    keyboardType: TextInputType.emailAddress,
+                    onSaved: (value) => email = value ?? ''),
+                SizedBox(height: 16),
+                CustomFormField(
+                    labelText: "Contraseña",
+                    prefixIcon: Icons.lock,
+                    obscureText: true,
+                    onSaved: (value) => password = value ?? ''),
+                SizedBox(height: 20),
+                _LoginButton(),
+                SizedBox(height: 20),
+                _SignUpText(context),
+              ],
+            ),
           ),
         ),
       ),

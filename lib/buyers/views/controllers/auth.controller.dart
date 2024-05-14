@@ -13,7 +13,7 @@ class AuthController {
           email: email, password: password);
 
       await userCredentail.user!.updateDisplayName(name);
-      await saveUserData(name, email);
+      await saveUserData(userCredentail);
       return 'success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -57,13 +57,10 @@ class AuthController {
   }
 
   // Save user data to firestore
-  Future<void> saveUserData(String name, String email) async {
-    await _firestore
-        .collection('users')
-        .doc(_firebaseAuth.currentUser!.uid)
-        .set({
-      'name': name,
-      'email': email,
+  Future<void> saveUserData(UserCredential userCredential) async {
+    await _firestore.collection('buyers').doc(userCredential.user!.uid).set({
+      'name': userCredential.user!.displayName,
+      'email': userCredential.user!.email,
     });
   }
 }
