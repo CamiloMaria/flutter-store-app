@@ -2,20 +2,22 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:project/buyers/views/home_screen.dart';
 
-import 'buyers/views/auth/login.dart';
+import 'buyers/views/auth/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Platform.isAndroid ? await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyALsy_hbMThSFI1N-GUJgKphg9CItohHBY", 
-      appId: "1:460173077296:android:cf96d617521eac2c8976f5", 
-      messagingSenderId: "460173077296", 
-      projectId: "store-mobile-ab8b2",
-      storageBucket: "gs://store-mobile-ab8b2.appspot.com",
-    )
-  ) : await Firebase.initializeApp();
+  Platform.isAndroid
+      ? await Firebase.initializeApp(
+          options: const FirebaseOptions(
+          apiKey: "AIzaSyALsy_hbMThSFI1N-GUJgKphg9CItohHBY",
+          appId: "1:460173077296:android:cf96d617521eac2c8976f5",
+          messagingSenderId: "460173077296",
+          projectId: "store-mobile-ab8b2",
+          storageBucket: "gs://store-mobile-ab8b2.appspot.com",
+        ))
+      : await Firebase.initializeApp();
 
   runApp(const MyApp());
 }
@@ -36,4 +38,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

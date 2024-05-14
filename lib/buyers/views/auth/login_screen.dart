@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/buyers/views/controllers/auth.controller.dart';
 import 'package:project/shared/widget/custom_form_fuild.dart';
-import 'package:project/buyers/views/auth/register.dart';
+import 'package:project/buyers/views/auth/register_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -100,43 +100,55 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 40),
-                Text(
-                  'Bienvenido\nPor favor, inicia sesión para continuar',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 40),
+                    Text(
+                      'Bienvenido\nPor favor, inicia sesión para continuar',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 20),
+                    Image.asset('assets/images/Illustration.png', height: 280),
+                    SizedBox(height: 20),
+                    CustomFormField(
+                        labelText: "Correo electrónico",
+                        prefixIcon: Icons.email,
+                        keyboardType: TextInputType.emailAddress,
+                        onSaved: (value) => email = value ?? ''),
+                    SizedBox(height: 16),
+                    CustomFormField(
+                        labelText: "Contraseña",
+                        prefixIcon: Icons.lock,
+                        obscureText: true,
+                        onSaved: (value) => password = value ?? ''),
+                    SizedBox(height: 20),
+                    _LoginButton(),
+                    SizedBox(height: 20),
+                    _SignUpText(context),
+                  ],
                 ),
-                SizedBox(height: 20),
-                Image.asset('assets/images/Illustration.png', height: 280),
-                SizedBox(height: 20),
-                CustomFormField(
-                    labelText: "Correo electrónico",
-                    prefixIcon: Icons.email,
-                    keyboardType: TextInputType.emailAddress,
-                    onSaved: (value) => email = value ?? ''),
-                SizedBox(height: 16),
-                CustomFormField(
-                    labelText: "Contraseña",
-                    prefixIcon: Icons.lock,
-                    obscureText: true,
-                    onSaved: (value) => password = value ?? ''),
-                SizedBox(height: 20),
-                _LoginButton(),
-                SizedBox(height: 20),
-                _SignUpText(context),
-              ],
+              ),
             ),
           ),
-        ),
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }

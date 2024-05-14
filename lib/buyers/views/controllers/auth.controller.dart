@@ -12,8 +12,10 @@ class AuthController {
       final userCredentail = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      await userCredentail.user!.updateDisplayName(name);
-      await saveUserData(userCredentail);
+      await userCredentail.user!.updateDisplayName(name).whenComplete(() async {
+        await userCredentail.user!.reload();
+        await saveUserData(userCredentail);
+      });
       return 'success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -61,6 +63,12 @@ class AuthController {
     await _firestore.collection('buyers').doc(userCredential.user!.uid).set({
       'name': userCredential.user!.displayName,
       'email': userCredential.user!.email,
+      'profileImage': "",
+      "uid": userCredential.user!.uid,
+      "pinCode": "",
+      "city": "",
+      "state": "",
+      "createdAt": DateTime.now().millisecondsSinceEpoch.toString(),
     });
   }
 }
