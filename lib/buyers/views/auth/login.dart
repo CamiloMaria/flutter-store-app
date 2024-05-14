@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:project/buyers/views/controllers/auth.controller.dart';
 import 'package:project/shared/widget/custom_form_fuild.dart';
 import 'package:project/buyers/views/auth/register.dart';
 
@@ -12,6 +13,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final AuthController _authController = AuthController();
+
+  bool isLoading = false;
+
+  void loginUser() async {
+    startLoading();
+  }
+
+  void startLoading() {
+    setState(() {
+      isLoading = true;
+      FocusScope.of(context).unfocus();
+    });
+  }
+
+  void stopLoading() {
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,12 +55,10 @@ class _LoginPageState extends State<LoginPage> {
               Image.asset('assets/images/Illustration.png', height: 280),
               SizedBox(height: 20),
               CustomFormField(
-                labelText: "Correo electrónico", 
-                prefixIcon: Icons.email
-              ),
+                  labelText: "Correo electrónico", prefixIcon: Icons.email),
               SizedBox(height: 16),
               CustomFormField(
-                labelText: "Contraseña", 
+                labelText: "Contraseña",
                 prefixIcon: Icons.lock,
                 obscureText: true,
               ),
@@ -69,7 +90,7 @@ class _LoginButton extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(18.0),
         ),
-        padding: EdgeInsets.all(10), 
+        padding: EdgeInsets.all(10),
         child: Center(
           child: Text(
             'Iniciar sesión',
@@ -100,13 +121,13 @@ class _SignUpText extends StatelessWidget {
         },
         child: RichText(
           text: TextSpan(
-            style: TextStyle(fontSize: 16, color: Colors.black), 
+            style: TextStyle(fontSize: 16, color: Colors.black),
             children: <TextSpan>[
-              TextSpan(text: '¿No tienes cuenta? '), 
+              TextSpan(text: '¿No tienes cuenta? '),
               TextSpan(
-                text: 'Regístrate',
-                style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold) 
-              ),
+                  text: 'Regístrate',
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.bold)),
             ],
           ),
         ),
@@ -114,4 +135,3 @@ class _SignUpText extends StatelessWidget {
     );
   }
 }
-

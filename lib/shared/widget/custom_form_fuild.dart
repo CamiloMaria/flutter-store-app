@@ -5,6 +5,8 @@ class CustomFormField extends StatelessWidget {
   final IconData prefixIcon;
   final bool obscureText;
   final IconData? suffixIcon;
+  final TextInputType keyboardType;
+  final void Function(String?)? onSaved; // Add this line
 
   const CustomFormField({
     super.key,
@@ -12,14 +14,17 @@ class CustomFormField extends StatelessWidget {
     required this.prefixIcon,
     this.obscureText = false,
     this.suffixIcon,
+    this.keyboardType = TextInputType.text,
+    this.onSaved,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
-      keyboardType: obscureText ? TextInputType.text : TextInputType.emailAddress,
+      keyboardType: keyboardType,
       obscureText: obscureText,
+      onSaved: onSaved,
       decoration: InputDecoration(
         prefixIcon: Icon(prefixIcon),
         suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
