@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:project/buyers/views/controllers/auth.controller.dart';
+import 'package:project/buyers/controllers/auth.controller.dart';
 import 'package:project/shared/widget/custom_form_fuild.dart';
 import 'package:project/buyers/views/auth/login_screen.dart';
 

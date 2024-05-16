@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:project/buyers/views/controllers/auth.controller.dart';
+import 'package:project/buyers/controllers/auth.controller.dart';
+import 'package:project/buyers/views/main_screen.dart';
 import 'package:project/shared/widget/custom_form_fuild.dart';
 import 'package:project/buyers/views/auth/register_screen.dart';
 
@@ -72,6 +73,10 @@ class _LoginPageState extends State<LoginPage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainPage()),
+                );
               },
               child: Text('OK'),
             ),
@@ -133,7 +138,9 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: true,
                         onSaved: (value) => password = value ?? ''),
                     SizedBox(height: 20),
-                    _LoginButton(),
+                    _LoginButton(
+                      onTap: loginUser,
+                    ),
                     SizedBox(height: 20),
                     _SignUpText(context),
                   ],
@@ -155,12 +162,13 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class _LoginButton extends StatelessWidget {
+  final Function onTap;
+  const _LoginButton({required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Acción al presionar
-      },
+      onTap: () => onTap(),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
