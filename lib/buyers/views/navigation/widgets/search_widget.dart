@@ -40,6 +40,7 @@ class SearchWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Icon(Icons.notifications),
                     ],
                   ),
                 ),
