@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class BannerWidget extends StatefulWidget {
   const BannerWidget({super.key});
@@ -22,21 +23,36 @@ class _BannerWidgetState extends State<BannerWidget> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text('Loading');
+          return const CircularProgressIndicator();
         }
 
-        return SizedBox(
-          width: double.infinity,
-          height: 150,
-          child: PageView.builder(
-              itemCount: snapshot.data?.docs.length ?? 0,
-              itemBuilder: (context, index) {
-                final banner = snapshot.data!.docs[index];
-                return Image.network(
-                  banner['image_url'] as String,
-                  fit: BoxFit.cover,
-                );
-              }),
+        CachedNetworkImage(
+          imageUrl: snapshot.data!.docs[0]['image_url'] as String,
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        );
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: SizedBox(
+            width: double.infinity,
+            height: 150,
+            child: PageView.builder(
+                itemCount: snapshot.data?.docs.length ?? 0,
+                itemBuilder: (context, index) {
+                  final banner = snapshot.data!.docs[index];
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: CachedNetworkImage(
+                      imageUrl: banner['image_url'] as String,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                }),
+          ),
         );
       },
     );
