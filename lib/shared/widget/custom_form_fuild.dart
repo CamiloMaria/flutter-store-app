@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomFormField extends StatelessWidget {
+class CustomFormFieldWidget extends StatelessWidget {
   final String labelText;
   final IconData prefixIcon;
   final bool obscureText;
@@ -8,7 +8,7 @@ class CustomFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final void Function(String?)? onSaved; // Add this line
 
-  const CustomFormField({
+  const CustomFormFieldWidget({
     super.key,
     required this.labelText,
     required this.prefixIcon,

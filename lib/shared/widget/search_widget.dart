@@ -7,7 +7,6 @@ class SearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.3,
       child: Stack(
         children: [
           Image.asset(
@@ -40,7 +39,7 @@ class SearchWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Icon(Icons.notifications),
+                      Icon(Icons.camera_alt),
                     ],
                   ),
                 ),

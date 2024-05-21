@@ -126,13 +126,13 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 20),
                     Image.asset('assets/images/Illustration.png', height: 280),
                     SizedBox(height: 20),
-                    CustomFormField(
+                    CustomFormFieldWidget(
                         labelText: "Correo electrónico",
                         prefixIcon: Icons.email,
                         keyboardType: TextInputType.emailAddress,
                         onSaved: (value) => email = value ?? ''),
                     SizedBox(height: 16),
-                    CustomFormField(
+                    CustomFormFieldWidget(
                         labelText: "Contraseña",
                         prefixIcon: Icons.lock,
                         obscureText: true,
