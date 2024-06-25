@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project/buyers/views/main_screen.dart';
 import 'package:project/shared/model/cart_model.dart';
+import 'package:project/shared/model/favorite_model.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -20,8 +21,11 @@ void main() async {
       : await Firebase.initializeApp();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => CartModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CartModel()),
+        ChangeNotifierProvider(create: (context) => FavoriteModel()),
+      ],
       child: const MyApp(),
     ),
   );

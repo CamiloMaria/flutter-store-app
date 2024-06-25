@@ -15,8 +15,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartModel>(context);
-    final totalAmount =
-        cart.items.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
+    final totalAmount = cart.totalAmount;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -50,7 +49,7 @@ class _CartPageState extends State<CartPage> {
                           badgeColor: Colors.yellow.shade800,
                         ),
                         badgeContent: Text(
-                          '${cart.items.length}',
+                          '${cart.totalItems}',
                           style: GoogleFonts.lato(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
@@ -111,7 +110,7 @@ class _CartPageState extends State<CartPage> {
                   left: 69,
                   top: 14,
                   child: Text(
-                    'You have ${cart.items.length} item(s)',
+                    'You have ${cart.totalItems} item(s)',
                     style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: 16,
@@ -124,7 +123,7 @@ class _CartPageState extends State<CartPage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: cart.items.length,
+              itemCount: cart.totalItems,
               itemBuilder: (context, index) {
                 final item = cart.items[index];
                 return ListTile(
@@ -155,9 +154,7 @@ class _CartPageState extends State<CartPage> {
                           iconSize: 30,
                           onPressed: () {
                             if (item.quantity > 1) {
-                              setState(() {
-                                item.quantity -= 1;
-                              });
+                              cart.updateQuantity(item.id, item.quantity - 1);
                             }
                           },
                         ),
@@ -171,9 +168,7 @@ class _CartPageState extends State<CartPage> {
                           icon: Icon(Icons.add),
                           iconSize: 30,
                           onPressed: () {
-                            setState(() {
-                              item.quantity += 1;
-                            });
+                            cart.updateQuantity(item.id, item.quantity + 1);
                           },
                         ),
                         IconButton(
