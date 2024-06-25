@@ -41,6 +41,9 @@ dependencies:
   firebase_storage: ^11.7.5
   cached_network_image: ^3.3.1
   flutter_swipe: ^1.0.1
+  google_fonts: ^6.2.1
+  badges: ^3.1.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

@@ -40,7 +40,9 @@ class ProductCarouselWidget extends StatelessWidget {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10)),
                         child: Image.network(
-                          producto.imageUrl[0],
+                          producto.imageUrl.length > 0
+                              ? producto.imageUrl[0]
+                              : 'https://via.placeholder.com/150',
                           fit: BoxFit.cover,
                           height: 140, // Adjusted height
                           width: double.infinity,

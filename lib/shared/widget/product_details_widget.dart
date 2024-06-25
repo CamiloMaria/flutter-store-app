@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe/flutter_swipe.dart';
+import 'package:project/shared/model/cart_model.dart';
 import 'package:project/shared/model/product_model.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final ProductModel producto;
@@ -53,9 +55,13 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Implementar lógica para añadir al carrito
+                // Acceder al modelo del carrito usando Provider y añadir el producto
+                Provider.of<CartModel>(context, listen: false).add(producto);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Producto añadido al carrito')),
+                );
               },
-              child: Text('Añadir al carrito'),
+              child: const Text('Añadir al carrito'),
             )
           ],
         ),
