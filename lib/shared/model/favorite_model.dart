@@ -20,16 +20,24 @@ class FavoriteModel with ChangeNotifier {
   List<FavoriteItem> get items => _items;
 
   void add(FavoriteItem item) {
+    if (_items.any((element) => element.id == item.id)) {
+      return;
+    }
+
     _items.add(item);
     notifyListeners();
   }
 
   void remove(String id) {
+    if (!_items.any((element) => element.id == id)) {
+      return;
+    }
+
     _items.removeWhere((item) => item.id == id);
     notifyListeners();
   }
 
-  bool isFavorite(String id) => _items.any((item) => item.id == id);
+  bool isInFavorites(String id) => _items.any((item) => item.id == id);
 
   int get totalItems => _items.length;
 }

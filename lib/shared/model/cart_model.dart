@@ -7,11 +7,19 @@ class CartModel extends ChangeNotifier {
   List<ProductModel> get items => _items;
 
   void add(ProductModel item) {
+    if (_items.any((element) => element.id == item.id)) {
+      return;
+    }
+
     _items.add(item);
     notifyListeners();
   }
 
   void remove(String id) {
+    if (!_items.any((element) => element.id == id)) {
+      return;
+    }
+
     _items.removeWhere((item) => item.id == id);
     notifyListeners();
   }

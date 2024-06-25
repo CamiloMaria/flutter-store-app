@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe/flutter_swipe.dart';
 import 'package:project/shared/model/cart_model.dart';
+import 'package:project/shared/model/favorite_model.dart';
 import 'package:project/shared/model/product_model.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,41 @@ class ProductDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(producto.name),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Provider.of<FavoriteModel>(context).isInFavorites(producto.id)
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+              color:
+                  Provider.of<FavoriteModel>(context).isInFavorites(producto.id)
+                      ? Colors.red
+                      : null,
+            ),
+            onPressed: () {
+              final favoriteModel =
+                  Provider.of<FavoriteModel>(context, listen: false);
+              if (favoriteModel.isInFavorites(producto.id)) {
+                favoriteModel.remove(producto.id);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Producto removido de favoritos')),
+                );
+              } else {
+                favoriteModel.add(
+                  FavoriteItem(
+                    id: producto.id,
+                    name: producto.name,
+                    price: producto.price,
+                    imageUrl: producto.imageUrl,
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Producto añadido a favoritos')),
+                );
+              }
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
